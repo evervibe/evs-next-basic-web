@@ -1,0 +1,21 @@
+{
+  "name": "EverVibe Studios - Premium Next.js Templates",
+  "short_name": "EverVibe Studios",
+  "description": "Professionelle Weblösungen mit Next.js, React und Tailwind CSS",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#3b82f6",
+  "orientation": "portrait-primary",
+  "lang": "de",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ],
+  "categories": ["business", "productivity"],
+  "scope": "/"
+}

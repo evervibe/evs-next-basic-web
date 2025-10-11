@@ -1,0 +1,124 @@
+name: EVS Monetization CI
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'frontend/lib/license/**'
+      - 'frontend/app/api/paypal/**'
+      - 'frontend/app/api/license/**'
+      - 'frontend/config/license.config.ts'
+      - 'frontend/config/paypal.config.ts'
+  pull_request:
+    paths:
+      - 'frontend/lib/license/**'
+      - 'frontend/app/api/paypal/**'
+      - 'frontend/app/api/license/**'
+      - 'frontend/config/license.config.ts'
+      - 'frontend/config/paypal.config.ts'
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  license-tests:
+    name: License System Tests
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+          cache-dependency-path: frontend/package-lock.json
+      
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm ci
+      
+      - name: Run License Tests
+        working-directory: frontend
+        run: npm run test:license
+        env:
+          LICENSE_SALT: test_salt_for_ci_only
+          LICENSE_EMAIL_SENDER: info@evervibestudios.com
+          LICENSE_SINGLE_PRICE: 29.00
+          LICENSE_AGENCY_PRICE: 79.00
+          PAYPAL_CLIENT_ID: test_client_id
+          PAYPAL_CLIENT_SECRET: test_client_secret
+          PAYPAL_MODE: sandbox
+          SMTP_HOST: smtp.example.com
+          SMTP_PORT: 465
+          SMTP_SECURE: true
+          SMTP_USER: test@example.com
+          SMTP_PASS: test_password
+      
+      - name: Build Check
+        working-directory: frontend
+        run: npm run build
+        env:
+          LICENSE_SALT: test_salt_for_ci_only
+          LICENSE_EMAIL_SENDER: info@evervibestudios.com
+          LICENSE_SINGLE_PRICE: 29.00
+          LICENSE_AGENCY_PRICE: 79.00
+          PAYPAL_CLIENT_ID: test_client_id
+          PAYPAL_CLIENT_SECRET: test_client_secret
+          PAYPAL_MODE: sandbox
+          SMTP_HOST: smtp.example.com
+          SMTP_PORT: 465
+          SMTP_SECURE: true
+          SMTP_USER: test@example.com
+          SMTP_PASS: test_password
+      
+      - name: Lint Check
+        working-directory: frontend
+        run: npm run lint
+
+  payment-api-check:
+    name: Payment API Structure Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Verify API Structure
+        run: |
+          echo "Checking payment API structure..."
+          
+          # Check if required API files exist
+          test -f frontend/app/api/paypal/create-order/route.ts || (echo "❌ Missing create-order endpoint" && exit 1)
+          test -f frontend/app/api/paypal/capture-order/route.ts || (echo "❌ Missing capture-order endpoint" && exit 1)
+          test -f frontend/app/api/license/issue/route.ts || (echo "❌ Missing license/issue endpoint" && exit 1)
+          
+          # Check if config files exist
+          test -f frontend/config/license.config.ts || (echo "❌ Missing license.config.ts" && exit 1)
+          test -f frontend/config/paypal.config.ts || (echo "❌ Missing paypal.config.ts" && exit 1)
+          
+          # Check if license library exists
+          test -f frontend/lib/license/index.ts || (echo "❌ Missing license library index" && exit 1)
+          test -f frontend/lib/license/generateLicense.ts || (echo "❌ Missing generateLicense.ts" && exit 1)
+          test -f frontend/lib/license/validateLicense.ts || (echo "❌ Missing validateLicense.ts" && exit 1)
+          test -f frontend/lib/license/mailTemplate.ts || (echo "❌ Missing mailTemplate.ts" && exit 1)
+          
+          # Check if pricing module exists
+          test -f frontend/modules/pricing/PricingSection.tsx || (echo "❌ Missing PricingSection component" && exit 1)
+          test -f frontend/modules/pricing/LicenseCard.tsx || (echo "❌ Missing LicenseCard component" && exit 1)
+          test -f frontend/modules/pricing/PaymentHandler.tsx || (echo "❌ Missing PaymentHandler component" && exit 1)
+          
+          echo "✅ All required files are present"
+      
+      - name: Check Environment Variables Documentation
+        run: |
+          echo "Checking .env.example..."
+          
+          # Check if required variables are documented
+          grep -q "PAYPAL_CLIENT_ID" frontend/.env.example || (echo "❌ Missing PAYPAL_CLIENT_ID in .env.example" && exit 1)
+          grep -q "PAYPAL_CLIENT_SECRET" frontend/.env.example || (echo "❌ Missing PAYPAL_CLIENT_SECRET in .env.example" && exit 1)
+          grep -q "LICENSE_SALT" frontend/.env.example || (echo "❌ Missing LICENSE_SALT in .env.example" && exit 1)
+          
+          echo "✅ All environment variables documented"
