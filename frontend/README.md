@@ -1,8 +1,8 @@
-# EVS Basic Web - Landing Page Template v1.6.0
+# EVS Basic Web - Landing Page Template v1.6.3
 
 **EverVibe Studios** - Premium Next.js-Vorlage für deutsche Landing Pages, erstellt mit Next.js 15, React 19 und Tailwind CSS 4.
 
-> **Neu in v1.6.0:** Enhanced SEO, GDPR-konformer Consent-Layer, Umgebungsvariablen-Validierung und erweiterte Sicherheitsfeatures.
+> **Neu in v1.6.3:** Lazy ENV Validation für Build-Stabilität, automatische Gesundheitsprüfung, PayPal-Integration und Lizenzsystem.
 
 > **Hinweis:** Dieses Template enthält Platzhaltertexte für Impressum, Datenschutz, AGB und Cookie-Richtlinie. Bitte passen Sie diese an Ihre spezifischen Anforderungen an.
 
@@ -198,10 +198,12 @@ Dies ist ein proprietäres Template von EverVibe Studios. Für Fragen oder Suppo
 
 ## 📚 Dokumentation
 
-### Template-spezifisch (v1.6.0)
+### Template-spezifisch (v1.6.3)
 - [SEO Setup Guide](docs/SEO_SETUP.md) - Komplette SEO-Implementierung
 - [GDPR Consent Layer](docs/CONSENT_LAYER_SETUP.md) - DSGVO-Consent-Management
 - [Deployment Guide](docs/DEPLOYMENT_TEMPLATE_1.6.0.md) - Vercel, Render & VPS
+- [Environment Variables](ENV_VALIDATION_REPORT.md) - Umgebungsvariablen-Dokumentation
+- [Build Stability](BUILD_STABILITY_TEST.md) - Build-Stabilitätstests
 - [Changelog](docs/CHANGELOG.md) - Versionsverlauf
 
 ### Framework-Dokumentation
@@ -211,14 +213,15 @@ Dies ist ein proprietäres Template von EverVibe Studios. Für Fragen oder Suppo
 
 ## 📊 Versionsverlauf
 
-**Aktuell**: v1.6.0 (2025-01-15) - Template Modernization & GDPR Compliance
+**Aktuell**: v1.6.3 (2025-01-10) - Build Stability & Monetization
 
-**Highlights v1.6.0:**
-- 🔍 Enhanced SEO with structured data and PWA manifest
-- 🍪 GDPR-compliant consent banner
-- ✅ Environment validation with Zod
-- 🔒 Production-ready security headers
-- 📚 Comprehensive documentation (SEO, GDPR, Deployment)
+**Highlights v1.6.3:**
+- 🔧 Lazy ENV validation for build stability
+- 💰 PayPal integration for license sales
+- 🔑 Cryptographic license system with Redis storage
+- 🔍 Automated health monitoring (Live Guard)
+- ✅ Zero breaking changes, backward compatible
+- 📚 Comprehensive documentation and test reports
 
 Siehe [CHANGELOG.md](docs/CHANGELOG.md) für den vollständigen Versionsverlauf.
 
