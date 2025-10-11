@@ -60,6 +60,6 @@ View workflow runs:
 
 ## 🚀 Version
 
-**Current Version**: v1.4.1  
-**Last Updated**: 2025-10-08  
+**Current Version**: v1.6.3  
+**Last Updated**: 2025-01-10  
 **Documentation**: See `frontend/docs/agent_logs/`
